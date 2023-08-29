@@ -1,5 +1,6 @@
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
+import styles from "./index.module.css";
  
 const IndexPage: NextPage = () => {
     // ❶ useStateを使って状態を定義する
@@ -12,6 +13,24 @@ const IndexPage: NextPage = () => {
         setLoading(false); // ローディング状態を更新する
       });
     }, []);//コンポーネントがマウントされた時のみ実行
+
+    const handleClick = async () => {
+        setLoading(true); // 読込中フラグを立てる
+        const newImage = await fetchImage();
+        setImageUrl(newImage.url); // 画像URLの状態を更新する
+        setLoading(false); // 読込中フラグを倒す
+      };
+      return (
+        <div className={styles.page}>
+          <button onClick={handleClick} className={styles.button}>
+            他のにゃんこも見る
+          </button>
+          <div className={styles.frame}>
+            {loading || <img src={imageUrl} className={styles.img} />}
+          </div>
+        </div>
+      );
+
     // ❸ ローディング中でなければ、画像を表示する
     return <div>{loading || <img src={imageUrl} />}</div>;
 };
