@@ -1,7 +1,19 @@
 import { NextPage } from "next";
+import { useEffect, useState } from "react";
  
 const IndexPage: NextPage = () => {
-  return <div>猫画像予定地</div>;
+    // ❶ useStateを使って状態を定義する
+    const [imageUrl, setImageUrl] = useState("");//画像のURLが挿入される
+    const [loading, setLoading] = useState(true);//ロード中かどうか
+    // ❷ マウント時に画像を読み込む宣言
+    useEffect(() => {
+      fetchImage().then((newImage) => {
+        setImageUrl(newImage.url); // 画像URLの状態を更新する
+        setLoading(false); // ローディング状態を更新する
+      });
+    }, []);//コンポーネントがマウントされた時のみ実行
+    // ❸ ローディング中でなければ、画像を表示する
+    return <div>{loading || <img src={imageUrl} />}</div>;
 };
 //NextPageはページコンポーネントを表すかた
 //これをすると、ページコンポーネントの硫黄権を満たすかチェックできる
