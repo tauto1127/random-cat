@@ -7,3 +7,18 @@ const IndexPage: NextPage = () => {
 //これをすると、ページコンポーネントの硫黄権を満たすかチェックできる
 export default IndexPage;
 //export defaultをページコンポーネントとして認識
+//Image型宣言
+type Image = {
+    url: string;
+};
+
+const fetchImage = async (): Promise<Image> => {
+    //fetchはHTTPリクエストでリソースを取得する
+    const res = await fetch("https://api.thecatapi.com/v1/images/search");
+    //jsonでパース(オブジェクトになる)
+    const images = await res.json();
+    console.log(images);
+    return images[0];
+  };
+
+fetchImage();
